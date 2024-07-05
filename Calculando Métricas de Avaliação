@@ -1,0 +1,40 @@
+def calcular_metricas(matrizes_confusao):
+    melhor_indice = None
+    melhor_acuracia = 0
+    melhor_precisao = 0
+
+    for i, matriz in enumerate(matrizes_confusao):
+        vp, fp, fn, vn = matriz
+        acuracia = (vp + vn) / (vp + fp + fn + vn)
+        precisao = vp / (vp + fp)
+
+        if acuracia > melhor_acuracia:
+            melhor_acuracia = acuracia
+            melhor_precisao = precisao
+            melhor_indice = i + 1
+
+    # Função para formatar os números conforme a regra
+    def formatar_numero(num):
+        if num == 1.0:
+            return '1.0'
+        return ('{:.2f}'.format(num)).rstrip('0').rstrip('.')
+
+    # Arredonda os resultados conforme a regra
+    acuracia_formatada = formatar_numero(melhor_acuracia)
+    precisao_formatada = formatar_numero(melhor_precisao)
+
+    print(f"Índice: {melhor_indice}")
+    print(f"Acurácia: {acuracia_formatada}")
+    print(f"Precisão: {precisao_formatada}")
+
+# Recebe o número de matrizes de confusão
+n = int(input())
+
+# Recebe as n matrizes de confusão
+matrizes_confusao = []
+for _ in range(n):
+    matriz = tuple(map(int, input().split(',')))
+    matrizes_confusao.append(matriz)
+
+# Calcula e exibe as métricas da matriz com melhor desempenho
+calcular_metricas(matrizes_confusao)
